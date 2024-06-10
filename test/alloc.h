@@ -1,8 +1,16 @@
 #ifndef TEST_ALLOC_H
 #define TEST_ALLOC_H
-#include "y/includes/alloc.h"
+#include "y/includes/constructor.h"
 #include <gtest/gtest.h>
 #include <iostream>
+
+class SimpleSysAlloc : public y::Constructor {
+private:
+  void *alloc_memory(size_t size) { return ::malloc(size); }
+  void *realloc_memory(void *ptr, size_t size) { return ::realloc(ptr, size); }
+  void free_memory(void *ptr) { return ::free(ptr); }
+};
+
 
 class AllocTest
 {
@@ -31,21 +39,21 @@ class AllocTest
 
 TEST(ALLOC, new1)
 {
-  y::SimpleSysAlloc alloc;
+  SimpleSysAlloc alloc;
   AllocTest *test = y::g_new<AllocTest>(&alloc);
   y::g_delete(test);
 }
 
 TEST(ALLOC, new2)
 {
-  y::SimpleSysAlloc alloc;
+  SimpleSysAlloc alloc;
   AllocTest *test = y::g_new<AllocTest, 3>(&alloc, 1);
   y::g_delete(test);
 }
 
 TEST(ALLOC, new3)
 {
-  y::SimpleSysAlloc *alloc = new y::SimpleSysAlloc();
+  SimpleSysAlloc *alloc = new SimpleSysAlloc();
   AllocTest *test = y::g_new<AllocTest, 3>(alloc, 1);
   y::g_delete(test);
   delete alloc;
