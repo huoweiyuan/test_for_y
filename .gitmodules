@@ -1,3 +1,4 @@
 [submodule "y"]
 	path = y
-	url = git@github.com:huoweiyuan/y.git
+	url = git@github.com:manghaode/y.git
+	branch = main

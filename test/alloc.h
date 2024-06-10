@@ -1,4 +1,6 @@
-#include "y/include/alloc.h"
+#ifndef TEST_ALLOC_H
+#define TEST_ALLOC_H
+#include "y/includes/alloc.h"
 #include <gtest/gtest.h>
 #include <iostream>
 
@@ -29,24 +31,24 @@ class AllocTest
 
 TEST(ALLOC, new1)
 {
-  y::Allocator alloctor;
-  alloctor.set_as_default_allocator();
-  AllocTest *test = new (&alloctor) AllocTest();
-  delete test;
+  y::SimpleSysAlloc alloc;
+  AllocTest *test = y::g_new<AllocTest>(&alloc);
+  y::g_delete(test);
 }
 
 TEST(ALLOC, new2)
 {
-  y::Allocator alloctor;
-  alloctor.set_as_default_allocator();
-  AllocTest *test = new AllocTest[3]{{1},{2}};
-  delete[] test;
+  y::SimpleSysAlloc alloc;
+  AllocTest *test = y::g_new<AllocTest, 3>(&alloc, 1);
+  y::g_delete(test);
 }
 
 TEST(ALLOC, new3)
 {
-  y::Allocator *alloctor = new y::Allocator();
-  alloctor->set_as_default_allocator();
-  AllocTest *test = new (alloctor) AllocTest[3]{{1},{2}};
-  delete[] test;
+  y::SimpleSysAlloc *alloc = new y::SimpleSysAlloc();
+  AllocTest *test = y::g_new<AllocTest, 3>(alloc, 1);
+  y::g_delete(test);
+  delete alloc;
 }
+
+#endif
