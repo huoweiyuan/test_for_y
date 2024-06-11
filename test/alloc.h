@@ -4,7 +4,8 @@
 #include "y/includes/constructor.h"
 #include <gtest/gtest.h>
 #include <iostream>
-#include <string>
+
+#include "debug.h"
 
 class SimpleSysAlloc : public y::Constructor<SimpleSysAlloc> {
 public:
@@ -12,15 +13,6 @@ public:
   void *realloc_memory(void *ptr, size_t size) { return ::realloc(ptr, size); }
   void free_memory(void *ptr) { return ::free(ptr); }
 };
-
-// template<typename T> class SimpleStlConstructor : public y::StlConstructor<T> 
-// {
-// private:
-//   void *alloc_memory(size_t size) { return ::malloc(size); }
-//   void *realloc_memory(void *ptr, size_t size) { return ::realloc(ptr, size); }
-//   void free_memory(void *ptr) { return ::free(ptr); }
-// };
-
 
 class AllocTest
 {
@@ -69,13 +61,15 @@ TEST(ALLOC, new3)
   delete alloc;
 }
 
-
-TEST(ALLOC, alloc1)
-{
-  SimpleSysAlloc *alloc = new SimpleSysAlloc();
-  char *test = static_cast<char *>(y::g_alloc(alloc, 128));
-  y::g_free(alloc, test);
-  delete alloc;
+TEST(ALLOC, alloc1) {
+  COST_TIME(
+      {
+        SimpleSysAlloc *alloc = new SimpleSysAlloc();
+        char *test = static_cast<char *>(y::g_alloc(alloc, 128));
+        y::g_free(alloc, test);
+        delete alloc;
+      },
+      "TEST(ALLOC, alloc1)");
 }
 
 #endif
