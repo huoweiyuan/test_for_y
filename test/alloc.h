@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "debug.h"
+#include "y/includes/debug.h"
 
 class SimpleSysAlloc : public y::Constructor<SimpleSysAlloc> {
 public:
@@ -62,14 +62,10 @@ TEST(ALLOC, new3)
 }
 
 TEST(ALLOC, alloc1) {
-  COST_TIME(
-      {
-        SimpleSysAlloc *alloc = new SimpleSysAlloc();
-        char *test = static_cast<char *>(y::g_alloc(alloc, 128));
-        y::g_free(alloc, test);
-        delete alloc;
-      },
-      "TEST(ALLOC, alloc1)");
+  SimpleSysAlloc *alloc = new SimpleSysAlloc();
+  char *test = static_cast<char *>(y::g_alloc(alloc, 128));
+  y::g_free(alloc, test);
+  delete alloc;
 }
 
 #endif

@@ -12,6 +12,11 @@ add_executable(test_for_y main.cc ${TESTING_SRC})
 target_link_libraries(test_for_y PRIVATE ${GTEST_LIBRARIES} pthread y)
 add_test(test_for_y ${CMAKE_BINARY_DIR}/test_for_y)
 
+add_executable(performance ${CMAKE_SOURCE_DIR}/test/performance.cc)
+target_link_libraries(performance PRIVATE ${GTEST_LIBRARIES} pthread y)
+add_test(performance ${CMAKE_BINARY_DIR}/test_for_y)
+
+
 include_directories(
 .
 test
