@@ -8,23 +8,24 @@
 class A {
 public:
   A() {
-    LOG_DEBUG("A(a=0)\n");
-    m_a = 0;
+    LOG_DEBUG("A(nullptr)\n");
+    ptr = nullptr;
   }
-  A(int a) : m_a(a) { LOG_DEBUG("A(a=%%d)\n", m_a); }
-  ~A() { LOG_DEBUG("~A(a=%d)\n", m_a); }
+  A(void *p) : ptr(p) { LOG_DEBUG("A(a=%p)\n", ptr); }
+  ~A() { LOG_DEBUG("~A(a=%p)\n", ptr); }
 
 private:
-  int m_a;
+  void *ptr;
 };
 
-class Alloc1: public y::Constructor<Alloc1> {
+class Alloc1: public y::Constructor<Alloc1>, public y::Allocator<Alloc1> {
 private:
-  void *alloc_memory(size_t size) { return ::malloc(size); }
-  void *realloc_memory(void *ptr, size_t size) { return ::realloc(ptr, size); }
-  void free_memory(void *ptr) { return ::free(ptr); }
+  void *do_alloc(size_t size) { return ::malloc(size); }
+  void *do_realloc(void *ptr, size_t size) { return ::realloc(ptr, size); }
+  void do_free(void *ptr) { return ::free(ptr); }
 
   friend y::Allocator<Alloc1>;
+  friend y::Constructor<Alloc1>;
 };
 
 y::RET test1() {
@@ -34,7 +35,7 @@ y::RET test1() {
     COST_TIME(
         {
           for (int i = 0; i < COUNT; i++) {
-            A *a = g_new<A>(&alloc, i);
+            A *a = g_new<A>(&alloc, &alloc);
             y::g_delete(&alloc, a);
           }
         },
@@ -43,7 +44,7 @@ y::RET test1() {
     COST_TIME(
         {
           for (int i = 0; i < COUNT; i++) {
-            A *a = new A(i);
+            A *a = new A;
             delete a;
           }
         },

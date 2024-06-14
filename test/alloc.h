@@ -7,11 +7,14 @@
 
 #include "y/includes/debug.h"
 
-class SimpleSysAlloc : public y::Constructor<SimpleSysAlloc> {
-public:
-  void *alloc_memory(size_t size) { return ::malloc(size); }
-  void *realloc_memory(void *ptr, size_t size) { return ::realloc(ptr, size); }
-  void free_memory(void *ptr) { return ::free(ptr); }
+class SimpleSysAlloc : public y::Constructor<SimpleSysAlloc>, public y::Allocator<SimpleSysAlloc> {
+  friend y::Constructor<SimpleSysAlloc>;
+  friend y::Allocator<SimpleSysAlloc>;
+
+private:
+  void *do_alloc(size_t size) { return ::malloc(size); }
+  void *do_realloc(void *ptr, size_t size) { return ::realloc(ptr, size); }
+  void do_free(void *ptr) { return ::free(ptr); }
 };
 
 class AllocTest
