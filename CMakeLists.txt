@@ -3,17 +3,14 @@ project(test_for_y)
 
 set(CMAKE_CXX_STANDARD 17)
 
-enable_testing()
-find_package(GTest REQUIRED)
 add_subdirectory(y)
 
-SET(TESTING_SRC )
-add_executable(test_for_y main.cc ${TESTING_SRC})
-target_link_libraries(test_for_y PRIVATE ${GTEST_LIBRARIES} pthread y)
+add_executable(test_for_y main.cc )
+target_link_libraries(test_for_y PRIVATE  pthread y)
 add_test(test_for_y ${CMAKE_BINARY_DIR}/test_for_y)
 
 add_executable(performance ${CMAKE_SOURCE_DIR}/test/performance.cc)
-target_link_libraries(performance PRIVATE ${GTEST_LIBRARIES} pthread y)
+target_link_libraries(performance PRIVATE pthread y)
 add_test(performance ${CMAKE_BINARY_DIR}/test_for_y)
 
 
