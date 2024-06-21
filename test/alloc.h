@@ -1,9 +1,13 @@
 #ifndef TEST_ALLOC_H
 #define TEST_ALLOC_H
 #include "allocator.h"
+#include "stlallocator.h"
 #include "y/includes/constructor.h"
+#include <algorithm>
 #include <gtest/gtest.h>
 #include <iostream>
+#include <utility>
+#include <vector>
 
 #include "y/includes/debug.h"
 
@@ -69,6 +73,23 @@ TEST(ALLOC, alloc1) {
   char *test = static_cast<char *>(y::g_alloc(alloc, 128));
   y::g_free(alloc, test);
   delete alloc;
+}
+
+template <typename T>
+class SimpleStlAlloc : public y::StlAllocator<T, SimpleStlAlloc> {
+  ALLOCATOR_PATCH(SimpleStlAlloc)
+  friend y::StlAllocator<T, SimpleStlAlloc>;
+
+private:
+  void *do_alloc(size_t size) { return ::malloc(size); }
+  void *do_realloc(void *ptr, size_t size) { return ::realloc(ptr, size); }
+  void do_free(void *ptr) { return ::free(ptr); }
+};
+
+TEST(ALLOC, STL1) {
+  std::vector<std::pair<int, int>, SimpleStlAlloc<std::pair<int, int>>> test;
+  test.push_back({1,1});
+  test.push_back({2,2});
 }
 
 #endif

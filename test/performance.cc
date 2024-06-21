@@ -1,59 +1,46 @@
-#include "allocator.h"
-#include "constructor.h"
-#include "debug.h"
-#include "def.h"
-#include "log.h"
+#include "stlallocator.h"
+#include <functional>
+#include <string>
 #include <unistd.h>
+#include <unordered_set>
 
-class A {
-public:
-  A() {
-    LOG_DEBUG("A(nullptr)\n");
-    ptr = nullptr;
-  }
-  A(void *p) : ptr(p) { LOG_DEBUG("A(a=%p)\n", ptr); }
-  ~A() { LOG_DEBUG("~A(a=%p)\n", ptr); }
-
-private:
-  void *ptr;
-};
-
-class Alloc1: public y::Constructor<Alloc1>, public y::Allocator<Alloc1> {
+template<typename T>
+class SimpleStlAlloc2: public y::StlAllocator<T, SimpleStlAlloc2> {
+  ALLOCATOR_PATCH(SimpleStlAlloc2)
 private:
   void *do_alloc(size_t size) { return ::malloc(size); }
-  void *do_realloc(void *ptr, size_t size) { return ::realloc(ptr, size); }
   void do_free(void *ptr) { return ::free(ptr); }
 
-  friend y::Allocator<Alloc1>;
-  friend y::Constructor<Alloc1>;
+  friend y::StlAllocator<T, SimpleStlAlloc2>;
+
 };
 
-y::RET test1() {
-  Alloc1 alloc;
-  int COUNT = 500000;
-  if (fork()) {
-    COST_TIME(
-        {
-          for (int i = 0; i < COUNT; i++) {
-            A *a = g_new<A>(&alloc, &alloc);
-            y::g_delete(&alloc, a);
-          }
-        },
-        "CRTP");
-  } else {
-    COST_TIME(
-        {
-          for (int i = 0; i < COUNT; i++) {
-            A *a = new A;
-            delete a;
-          }
-        },
-        "SYSTEM");
+using String =
+    std::basic_string<char, std::char_traits<char>, SimpleStlAlloc2<char>>;
+
+namespace std {
+template <> struct hash<String> {
+  using argument_type = String;
+  using result_type = std::size_t;
+  result_type operator()(const argument_type &s) const {
+    result_type hash_value = 0;
+    for (char c : s) {
+      hash_value = 31 * hash_value + c;
+    }
+    return hash_value;
   }
-  return Y_SUCCESS;
+};
+} // namespace std
+
+template<typename T>
+using Unordered_set = std::unordered_set<T, std::hash<T>, std::equal_to<T>, SimpleStlAlloc2<T>>;
+
+void test_stl() {
+  Unordered_set<String> set1;
+  set1.insert("asd");
 }
 
 int main() {
-  test1();
+  test_stl();
   return 0;
 }

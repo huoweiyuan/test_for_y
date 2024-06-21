@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/Users/huoweiyuan/projects/test_for_y/build_vs",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/huoweiyuan/projects/test_for_y/. -I/Users/huoweiyuan/projects/test_for_y/test -I/usr/local/Cellar/googletest/1.14.0/include -I/Users/huoweiyuan/projects/test_for_y/y/includes -isystem /usr/local/include -g -std=gnu++17 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -o CMakeFiles/test_for_y.dir/main.cc.o -c /Users/huoweiyuan/projects/test_for_y/main.cc",
+  "file": "/Users/huoweiyuan/projects/test_for_y/main.cc",
+  "output": "CMakeFiles/test_for_y.dir/main.cc.o"
+},
+{
+  "directory": "/Users/huoweiyuan/projects/test_for_y/build_vs",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/huoweiyuan/projects/test_for_y/. -I/Users/huoweiyuan/projects/test_for_y/test -I/usr/local/Cellar/googletest/1.14.0/include -I/Users/huoweiyuan/projects/test_for_y/y/includes -isystem /usr/local/include -g -std=gnu++17 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -o CMakeFiles/performance.dir/test/performance.cc.o -c /Users/huoweiyuan/projects/test_for_y/test/performance.cc",
+  "file": "/Users/huoweiyuan/projects/test_for_y/test/performance.cc",
+  "output": "CMakeFiles/performance.dir/test/performance.cc.o"
+},
+{
+  "directory": "/Users/huoweiyuan/projects/test_for_y/build_vs",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/huoweiyuan/projects/test_for_y/y/includes -g -std=gnu++17 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -o y/CMakeFiles/y.dir/srcs/log.cc.o -c /Users/huoweiyuan/projects/test_for_y/y/srcs/log.cc",
+  "file": "/Users/huoweiyuan/projects/test_for_y/y/srcs/log.cc",
+  "output": "y/CMakeFiles/y.dir/srcs/log.cc.o"
+}
+]
