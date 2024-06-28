@@ -1,9 +1,0 @@
-/Users/huoweiyuan/projects/test_for_y/build_vs/CMakeFiles/test_for_y.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/CMakeFiles/performance.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/CMakeFiles/test.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/CMakeFiles/edit_cache.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/CMakeFiles/rebuild_cache.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/y/CMakeFiles/y.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/y/CMakeFiles/test.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/y/CMakeFiles/edit_cache.dir
-/Users/huoweiyuan/projects/test_for_y/build_vs/y/CMakeFiles/rebuild_cache.dir
